@@ -11,12 +11,12 @@
 
 class Safe
   attr_accessor :state, :entered_code
-  attr_reader :passcodes
+
+  PASSCODES = %w(DEED DEAF)
 
   def initialize
     @state = :locked
     @entered_code = ''
-    @passcodes = %w(DEED DEAF)
   end
 
   def open
@@ -28,6 +28,7 @@ class Safe
   end
 
   def key_in(value)
+    return :reset if value.size > 1
     entered_code << value
     validate_code
   end
@@ -35,7 +36,7 @@ class Safe
   private
 
   def validate_code
-    unlock_safe if passcodes.include?(entered_code)
+    unlock_safe if PASSCODES.include?(entered_code)
   end
 
   def unlock_safe

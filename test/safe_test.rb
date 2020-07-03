@@ -16,20 +16,20 @@ describe Safe do
     subject.open.must_equal :locked
   end
 
-  it 'resets the sequence and forces the opener to start again upon any incorrect keypress' do
-    subject.key_in('F')
-    subject.key_in('E')
-    subject.key_in('E')
-    subject.key_in('F')
-    subject.open.must_equal :locked
-  end
-
   it 'opens when the correct passcode is entered' do
     subject.key_in('D')
     subject.key_in('E')
     subject.key_in('E')
     subject.key_in('D')
     subject.open.must_equal :unlocked
+  end
+
+  it 'resets the sequence and forces the opener to start again upon any incorrect keypress' do
+    subject.key_in('D')
+    subject.key_in('E')
+    subject.key_in('A')
+    subject.key_in('D')
+    subject.open.must_equal :locked
   end
 
   it 'locks the safe when the door is closed' do
@@ -49,6 +49,12 @@ describe Safe do
     subject.open.must_equal :unlocked
   end
 
-  def key_in(value)
+  # added the below just for fun
+
+  it 'does not allow multiple key presses' do
+    subject.key_in('D')
+    subject.key_in('EA').must_equal :reset
+    subject.key_in('F')
+    subject.open.must_equal :locked
   end
 end
