@@ -7,8 +7,6 @@
 # There is no indication that the opener has entered an incorrect key press;
 # Shutting the door of the safe after it has been opened will automatically lock it.
 
-# require 'state_machines'
-
 class Safe
   attr_accessor :state, :entered_code
 
